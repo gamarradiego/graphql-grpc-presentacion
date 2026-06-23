@@ -1,4 +1,5 @@
-import { Slide, Heading, Text, CodePane, FlexBox, Box, Appear, codePaneThemes } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import CodeSnippet from '../components/CodeSnippet';
 
 export default function GraphQLConcepts() {
   return (
@@ -12,8 +13,7 @@ export default function GraphQLConcepts() {
             <Appear>
               <Text fontSize="1rem" color="secondary" fontWeight="700" margin="0 0 8px 0">Schema</Text>
             </Appear>
-            <CodePane language="graphql" theme={codePaneThemes.vsDark}>
-              {`type Book {
+            <CodeSnippet>{`type Book {
   id: ID!
   title: String!
   author: String!
@@ -33,22 +33,19 @@ type Mutation {
     year: Int!
     genres: [String!]!
   ): Book!
-}`}
-            </CodePane>
+}`}</CodeSnippet>
           </Box>
           <Box width="48%">
             <Appear>
               <Text fontSize="1rem" color="tertiary" fontWeight="700" margin="0 0 8px 0">Consulta</Text>
             </Appear>
             <Appear>
-            <CodePane language="graphql" theme={codePaneThemes.vsDark}>
-              {`query {
+            <CodeSnippet>{`query {
   books {
     title
     author
   }
-}`}
-              </CodePane>
+}`}</CodeSnippet>
             </Appear>
             <Appear>
               <Box backgroundColor="#0a1a0a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #34d399' }}>

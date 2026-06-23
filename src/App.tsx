@@ -14,6 +14,8 @@ import GRPCProsCons from './slides/GRPCProsCons';
 import Comparison from './slides/Comparison';
 import UseCases from './slides/UseCases';
 import ArchitectureBridge from './slides/ArchitectureBridge';
+import GraphQLMiniDemo from './slides/GraphQLMiniDemo';
+import GRPCMiniDemo from './slides/GRPCMiniDemo';
 import IntegratedDemo from './slides/IntegratedDemo';
 import Summary from './slides/Summary';
 import Questions from './slides/Questions';
@@ -35,6 +37,8 @@ export default function App() {
       <Comparison />
       <UseCases />
       <ArchitectureBridge />
+      <GraphQLMiniDemo />
+      <GRPCMiniDemo />
       <IntegratedDemo />
       <Summary />
       <Questions />

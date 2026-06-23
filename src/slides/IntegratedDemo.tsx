@@ -84,6 +84,7 @@ function StepBox({ label, sublabel, status, color }: {
 }
 
 export default function IntegratedDemo() {
+  const [started, setStarted] = useState(false);
   const [response, setResponse] = useState<any>(null);
   const [grpcCalls, setGrpcCalls] = useState<GRPCCall[]>([]);
   const [loading, setLoading] = useState(false);
@@ -130,12 +131,72 @@ export default function IntegratedDemo() {
     }
   }, []);
 
+  if (!started) {
+    return (
+      <Slide backgroundColor="#0b0d1a">
+        <FlexBox height="100%" flexDirection="column" alignItems="center" justifyContent="center">
+          <Heading fontSize="2rem" color="primary" margin="0 0 16px 0" textAlign="center">
+            Demo Integrada — GraphQL + gRPC
+          </Heading>
+          <Text fontSize="1rem" color="#94a3b8" margin="0 0 24px 0" textAlign="center" width="70%">
+            La demo conecta el gateway GraphQL con el servicio gRPC de la biblioteca.
+            Presioná el botón para cargarla y ejecutar consultas sobre el flujo integrado.
+          </Text>
+          <Box
+            as="button"
+            onClick={() => setStarted(true)}
+            backgroundColor="#06b6d4"
+            color="#0b0d1a"
+            padding="14px 28px"
+            borderRadius="10px"
+            style={{
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '1rem',
+              fontWeight: 800,
+              boxShadow: '0 10px 30px rgba(6, 182, 212, 0.28)',
+            }}
+          >
+            Comenzar demo
+          </Box>
+        </FlexBox>
+      </Slide>
+    );
+  }
+
   return (
     <Slide backgroundColor="#0b0d1a">
       <FlexBox height="100%" flexDirection="column" style={{ overflow: 'hidden' }}>
         <Heading fontSize="1.6rem" color="primary" margin="0 0 12px 0">
           Demo Integrada — GraphQL + gRPC
         </Heading>
+
+        <FlexBox width="95%" justifyContent="space-between" marginBottom="10px" alignItems="stretch">
+          <Box backgroundColor="#0d1117" padding="10px 12px" borderRadius="8px" width="32%" style={{ border: '1px solid #1e293b' }}>
+            <Text fontSize="0.75rem" color="#06b6d4" fontWeight="800" margin="0 0 4px 0">
+              1. Elegí una query
+            </Text>
+            <Text fontSize="0.68rem" color="#94a3b8" margin="0">
+              Disparás una consulta del frontend para ver cómo GraphQL decide qué datos pedir.
+            </Text>
+          </Box>
+          <Box backgroundColor="#0d1117" padding="10px 12px" borderRadius="8px" width="32%" style={{ border: '1px solid #1e293b' }}>
+            <Text fontSize="0.75rem" color="#a78bfa" fontWeight="800" margin="0 0 4px 0">
+              2. Gateway traduce
+            </Text>
+            <Text fontSize="0.68rem" color="#94a3b8" margin="0">
+              El gateway resuelve cada campo y llama al servicio gRPC de la biblioteca.
+            </Text>
+          </Box>
+          <Box backgroundColor="#0d1117" padding="10px 12px" borderRadius="8px" width="32%" style={{ border: '1px solid #1e293b' }}>
+            <Text fontSize="0.75rem" color="#34d399" fontWeight="800" margin="0 0 4px 0">
+              3. Revisá el trace
+            </Text>
+            <Text fontSize="0.68rem" color="#94a3b8" margin="0">
+              Mirás la respuesta final y las RPC concretas que ejecutó el backend.
+            </Text>
+          </Box>
+        </FlexBox>
 
         <FlexBox width="95%" justifyContent="center" marginBottom="12px">
           <StepBox label="React App" sublabel="presentación" status={steps[0]} color="#06b6d4" />

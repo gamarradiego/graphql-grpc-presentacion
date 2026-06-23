@@ -7,14 +7,14 @@ export default function ArchitectureBridge() {
         <Heading fontSize="2.2rem" color="primary" margin="0 0 32px 0">
           Arquitectura Unificada
         </Heading>
-        <FlexBox width="100%" justifyContent="center" flexWrap="wrap">
+        <FlexBox width="100%" justifyContent="space-between" alignItems="stretch" flexWrap="wrap">
           <Appear>
             <Box
               backgroundColor="#0a1628"
               padding="20px 24px"
               borderRadius="8px"
-              width="42%"
-              margin="0 12px 16px"
+              width="48%"
+              margin="0 0 16px 0"
               style={{ border: '1px solid #1e3a5f', borderLeft: '4px solid #06b6d4' }}
             >
               <Text fontSize="1.1rem" color="#06b6d4" fontWeight="700" margin="0 0 12px 0">
@@ -39,8 +39,8 @@ export default function ArchitectureBridge() {
               backgroundColor="#1a0a0a"
               padding="20px 24px"
               borderRadius="8px"
-              width="42%"
-              margin="0 12px 16px"
+              width="48%"
+              margin="0 0 16px 0"
               style={{ border: '1px solid #5f1e1e', borderLeft: '4px solid #fbbf24' }}
             >
               <Text fontSize="1.1rem" color="#fbbf24" fontWeight="700" margin="0 0 12px 0">

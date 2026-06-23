@@ -7,10 +7,10 @@ export default function UseCases() {
         <Heading fontSize="2.2rem" color="primary" margin="0 0 36px 0">
           ¿Cuándo usar cada uno?
         </Heading>
-        <FlexBox width="100%" justifyContent="space-between">
+        <FlexBox width="100%" justifyContent="space-between" alignItems="stretch">
           <Appear>
             <Box
-              width="45%"
+              width="48%"
               backgroundColor="#0a1628"
               padding="28px"
               borderRadius="12px"
@@ -32,7 +32,7 @@ export default function UseCases() {
           </Appear>
           <Appear>
             <Box
-              width="45%"
+              width="48%"
               backgroundColor="#1a0a0a"
               padding="28px"
               borderRadius="12px"
