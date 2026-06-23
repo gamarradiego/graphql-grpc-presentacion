@@ -1,0 +1,17 @@
+{
+  "name": "grpc-demo",
+  "private": true,
+  "scripts": {
+    "server": "ts-node src/server.ts",
+    "client": "ts-node src/client.ts"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.0",
+    "@grpc/proto-loader": "^0.7.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.5.0"
+  }
+}
