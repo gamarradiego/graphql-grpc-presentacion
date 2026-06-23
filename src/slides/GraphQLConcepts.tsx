@@ -1,4 +1,4 @@
-import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box } from 'spectacle';
 import CodeSnippet from '../components/CodeSnippet';
 
 export default function GraphQLConcepts() {
@@ -10,9 +10,7 @@ export default function GraphQLConcepts() {
         </Heading>
         <FlexBox width="100%" justifyContent="space-between" alignItems="flex-start">
           <Box width="48%">
-            <Appear>
-              <Text fontSize="1rem" color="secondary" fontWeight="700" margin="0 0 8px 0">Schema</Text>
-            </Appear>
+            <Text fontSize="1rem" color="secondary" fontWeight="700" margin="0 0 8px 0">Schema</Text>
             <CodeSnippet>{`type Book {
   id: ID!
   title: String!
@@ -35,33 +33,25 @@ type Mutation {
   ): Book!`}</CodeSnippet>
           </Box>
           <Box width="48%">
-            <Appear>
-              <Text fontSize="1rem" color="tertiary" fontWeight="700" margin="0 0 8px 0">Consulta</Text>
-            </Appear>
-            <Appear>
-              <CodeSnippet>{`query {
+            <Text fontSize="1rem" color="tertiary" fontWeight="700" margin="0 0 8px 0">Consulta</Text>
+            <CodeSnippet>{`query {
   books {
     title
     author
   }
 }`}</CodeSnippet>
-            </Appear>
-            <Appear>
-              <Box backgroundColor="#0a1a0a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #34d399' }}>
-                <Text fontSize="0.9rem" color="#34d399" margin="0">
-                  ✅ Solo devuelve <Text fontFamily="monospace" fontSize="0.85rem">title</Text> y{' '}
-                  <Text fontFamily="monospace" fontSize="0.85rem">author</Text> —{' '}
-                  <Text as="span" fontWeight="700">sin over-fetching</Text>
-                </Text>
-              </Box>
-            </Appear>
-            <Appear>
-              <Box backgroundColor="#1a0a1a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #a78bfa' }}>
-                <Text fontSize="0.9rem" color="#c4b5fd" margin="0">
-                  🔄 Las <Text as="span" fontWeight="700">mutaciones</Text> modifican datos en el servidor
-                </Text>
-              </Box>
-            </Appear>
+            <Box backgroundColor="#0a1a0a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #34d399' }}>
+              <Text fontSize="0.9rem" color="#34d399" margin="0">
+                ✅ Solo devuelve <Text fontFamily="monospace" fontSize="0.85rem">title</Text> y{' '}
+                <Text fontFamily="monospace" fontSize="0.85rem">author</Text> —{' '}
+                <Text as="span" fontWeight="700">sin over-fetching</Text>
+              </Text>
+            </Box>
+            <Box backgroundColor="#1a0a1a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #a78bfa' }}>
+              <Text fontSize="0.9rem" color="#c4b5fd" margin="0">
+                🔄 Las <Text as="span" fontWeight="700">mutaciones</Text> modifican datos en el servidor
+              </Text>
+            </Box>
           </Box>
         </FlexBox>
       </FlexBox>
