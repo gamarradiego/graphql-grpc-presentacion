@@ -105,6 +105,23 @@ function promisifyGrpc(client: any, method: string, request: any): Promise<any> 
   });
 }
 
+interface GRPCCall {
+  method: string;
+  request: any;
+  response: any;
+  durationMs: number;
+}
+
+const grpcCalls: GRPCCall[] = [];
+
+function trace<T>(method: string, request: any, fn: () => Promise<T>): Promise<T> {
+  const start = Date.now();
+  return fn().then((response) => {
+    grpcCalls.push({ method, request, response, durationMs: Date.now() - start });
+    return response;
+  });
+}
+
 // ============================================================
 // 4. Library gRPC Client
 // ============================================================
@@ -135,27 +152,50 @@ async function startGraphQLGateway(libraryClient: any): Promise<void> {
   const resolvers = {
     Query: {
       books: async () => {
-        const { books: bs } = await promisifyGrpc(libraryClient, 'GetBooks', {});
+        const { books: bs } = await trace('GetBooks', {}, () => promisifyGrpc(libraryClient, 'GetBooks', {}));
         return bs;
       },
       book: async (_: unknown, args: { id: string }) => {
-        const { book } = await promisifyGrpc(libraryClient, 'GetBookById', { id: Number(args.id) });
+        const { book } = await trace('GetBookById', { id: Number(args.id) }, () =>
+          promisifyGrpc(libraryClient, 'GetBookById', { id: Number(args.id) })
+        );
         return book;
       },
       authors: async () => {
-        const { authors: as } = await promisifyGrpc(libraryClient, 'GetAuthors', {});
+        const { authors: as } = await trace('GetAuthors', {}, () => promisifyGrpc(libraryClient, 'GetAuthors', {}));
         return as;
       },
     },
     Book: {
       author: async (parent: any) => {
-        const { author } = await promisifyGrpc(libraryClient, 'GetAuthorById', { id: parent.authorId });
+        const { author } = await trace('GetAuthorById', { id: parent.authorId }, () =>
+          promisifyGrpc(libraryClient, 'GetAuthorById', { id: parent.authorId })
+        );
         return author;
       },
     },
   };
 
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [
+      {
+        async requestDidStart() {
+          return {
+            async willSendResponse(requestContext: any) {
+              if (grpcCalls.length > 0) {
+                requestContext.response.body.singleResult.extensions = {
+                  grpcCalls: [...grpcCalls],
+                };
+                grpcCalls.length = 0;
+              }
+            },
+          };
+        },
+      },
+    ],
+  });
   await server.start();
   const app = express();
   app.use(cors());
