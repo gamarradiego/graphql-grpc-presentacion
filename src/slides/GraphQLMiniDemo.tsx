@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box } from 'spectacle';
 import CodeSnippet from '../components/CodeSnippet';
 
 const QUERY = `query {
@@ -23,24 +23,6 @@ const BOOKS = [
   { title: '1984', author: 'George Orwell', year: 1949 },
   { title: 'Dune', author: 'Frank Herbert', year: 1965 },
 ];
-
-function MiniStep({ title, body, color }: { title: string; body: string; color: string }) {
-  return (
-    <Box
-      backgroundColor="#0d1117"
-      padding="14px 16px"
-      borderRadius="10px"
-      style={{ border: `1px solid ${color}` }}
-    >
-      <Text fontSize="0.82rem" color={color} fontWeight="800" margin="0 0 6px 0">
-        {title}
-      </Text>
-      <Text fontSize="0.72rem" color="#94a3b8" margin="0">
-        {body}
-      </Text>
-    </Box>
-  );
-}
 
 export default function GraphQLMiniDemo() {
   const [runDemo, setRunDemo] = useState(false);
@@ -95,75 +77,65 @@ export default function GraphQLMiniDemo() {
               </Text>
             </Box>
 
-            <FlexBox width="100%" justifyContent="space-between" gap="10px" marginBottom="10px">
-              <MiniStep
-                title="2. Resolver books"
-                body="El gateway valida el schema y llama al resolver que arma los libros desde memoria."
-                color="#a78bfa"
-              />
-              <MiniStep
-                title="3. Respuesta final"
-                body="GraphQL devuelve JSON con solo title, author y year."
-                color="#34d399"
-              />
-            </FlexBox>
-
             {runDemo ? (
-              <Appear>
-                <FlexBox flexDirection="column" gap="10px">
-                  <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
-                    <Text fontSize="0.82rem" color="#06b6d4" fontWeight="800" margin="0 0 8px 0">
-                      Resultado visible
-                    </Text>
-                    <Text fontSize="1.5rem" color="#e5e7eb" fontWeight="800" margin="0 0 6px 0">
-                      {BOOKS.length} libros devueltos
-                    </Text>
-                    <FlexBox width="100%" justifyContent="space-between" gap="10px" flexWrap="wrap">
-                      {BOOKS.map((book) => (
-                        <Box key={book.title} width="48%" backgroundColor="#111827" padding="12px 14px" borderRadius="8px" style={{ border: '1px solid #1f2937' }}>
-                          <Text fontSize="0.85rem" color="#e5e7eb" fontWeight="700" margin="0 0 4px 0">
-                            {book.title}
-                          </Text>
-                          <Text fontSize="0.72rem" color="#94a3b8" margin="0">
-                            {book.author} · {book.year}
-                          </Text>
-                        </Box>
-                      ))}
-                    </FlexBox>
-                  </Box>
+              <FlexBox flexDirection="column" gap="8px">
+                <FlexBox width="100%" justifyContent="space-between" gap="8px" flexWrap="wrap">
+                  {BOOKS.map((book) => (
+                    <Box key={book.title} width="48%" backgroundColor="#111827" padding="10px 12px" borderRadius="8px" style={{ border: '1px solid #1f2937' }}>
+                      <Text fontSize="0.85rem" color="#e5e7eb" fontWeight="700" margin="0 0 4px 0">
+                        {book.title}
+                      </Text>
+                      <Text fontSize="0.72rem" color="#94a3b8" margin="0">
+                        {book.author} · {book.year}
+                      </Text>
+                    </Box>
+                  ))}
+                </FlexBox>
 
-                  <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
-                    <Text fontSize="0.82rem" color="#34d399" fontWeight="800" margin="0 0 6px 0">
-                      Qué demuestra
-                    </Text>
-                    <Text fontSize="0.8rem" color="#cbd5e1" margin="0">
-                      GraphQL devuelve un JSON único con solo los campos pedidos por el cliente.
-                    </Text>
-                  </Box>
+                <Box backgroundColor="#0d1117" padding="12px 14px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
+                  <Text fontSize="0.82rem" color="#06b6d4" fontWeight="800" margin="0 0 6px 0">
+                    JSON devuelto por el gateway
+                  </Text>
+                  <CodeSnippet>{RESPONSE}</CodeSnippet>
+                </Box>
 
-                  <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
+                <Box backgroundColor="#0d1117" padding="12px 14px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
+                  <Text fontSize="0.82rem" color="#34d399" fontWeight="800" margin="0 0 4px 0">
+                    Por qué sirve
+                  </Text>
+                  <Text fontSize="0.75rem" color="#cbd5e1" margin="0">
+                    GraphQL devuelve un JSON único con solo los campos pedidos por el cliente,
+                    evitando sobrecargar la red con datos innecesarios.
+                  </Text>
+                </Box>
+              </FlexBox>
+            ) : (
+              <>
+                <FlexBox width="100%" justifyContent="space-between" gap="10px" marginBottom="10px">
+                  <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #a78bfa' }}>
                     <Text fontSize="0.82rem" color="#a78bfa" fontWeight="800" margin="0 0 6px 0">
-                      Por qué sirve
+                      2. Resolver books
                     </Text>
-                    <Text fontSize="0.8rem" color="#cbd5e1" margin="0">
-                      Evita sobrecargar la red con datos innecesarios y simplifica el frontend cuando hay muchos consumidores.
+                    <Text fontSize="0.72rem" color="#94a3b8" margin="0">
+                      El gateway valida el schema y llama al resolver que arma los libros desde memoria.
                     </Text>
                   </Box>
-
-                  <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
-                    <Text fontSize="0.82rem" color="#06b6d4" fontWeight="800" margin="0 0 8px 0">
-                      JSON devuelto por el gateway
+                  <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #34d399' }}>
+                    <Text fontSize="0.82rem" color="#34d399" fontWeight="800" margin="0 0 6px 0">
+                      3. Respuesta final
                     </Text>
-                    <CodeSnippet>{RESPONSE}</CodeSnippet>
+                    <Text fontSize="0.72rem" color="#94a3b8" margin="0">
+                      GraphQL devuelve JSON con solo title, author y year.
+                    </Text>
                   </Box>
                 </FlexBox>
-              </Appear>
-            ) : (
-              <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
-                <Text fontSize="0.82rem" color="#64748b" margin="0">
-                  Pulsá el botón para ver la respuesta y cómo GraphQL reduce el overfetching.
-                </Text>
-              </Box>
+
+                <Box backgroundColor="#0d1117" padding="14px 16px" borderRadius="10px" style={{ border: '1px solid #1f2937' }}>
+                  <Text fontSize="0.82rem" color="#64748b" margin="0">
+                    Pulsá el botón para ver la respuesta y cómo GraphQL reduce el overfetching.
+                  </Text>
+                </Box>
+              </>
             )}
           </Box>
         </FlexBox>

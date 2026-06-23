@@ -1,98 +1,71 @@
 import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
 import CodeSnippet from '../components/CodeSnippet';
+import LiveGRPCDemo from '../components/LiveGRPCDemo';
 
 export default function DemoGRPC() {
   return (
     <Slide backgroundColor="#0b0d1a">
       <FlexBox height="100%" flexDirection="column" alignItems="flex-start">
         <Heading fontSize="2.2rem" color="tertiary" margin="0 0 20px 0">
-          Demo 2: gRPC — Calculator
+          Demo: gRPC — Calculator
         </Heading>
 
-        <Appear>
-          <FlexBox
-            width="100%"
-            backgroundColor="#111827"
-            padding="16px 20px"
-            borderRadius="8px"
-            justifyContent="space-between"
-            alignItems="center"
-            marginBottom="20px"
-            style={{ border: '1px solid #1e293b' }}
-          >
-            <Box backgroundColor="#0d1117" padding="12px 18px" borderRadius="6px" textAlign="center" style={{ border: '1px solid #fbbf24' }}>
-              <Text fontSize="0.85rem" color="#fbbf24" fontWeight="700" margin="0">Cliente (TS)</Text>
-              <Text fontSize="0.7rem" color="#64748b" margin="2px 0 0">localhost:50051</Text>
-            </Box>
-            <Text fontSize="1.2rem" color="#475569" margin="0 8px">⟷</Text>
-            <Box backgroundColor="#0d1117" padding="12px 18px" borderRadius="6px" textAlign="center" style={{ border: '1px solid #34d399' }}>
-              <Text fontSize="0.85rem" color="#34d399" fontWeight="700" margin="0">gRPC Server</Text>
-              <Text fontSize="0.7rem" color="#64748b" margin="2px 0 0">Calculator service</Text>
-            </Box>
-            <Text fontSize="1.2rem" color="#475569" margin="0 8px">⟷</Text>
-            <Box backgroundColor="#0d1117" padding="12px 18px" borderRadius="6px" textAlign="center" style={{ border: '1px solid #a78bfa' }}>
-              <Text fontSize="0.85rem" color="#a78bfa" fontWeight="700" margin="0">Proto Contract</Text>
-              <Text fontSize="0.7rem" color="#64748b" margin="2px 0 0">calculator.proto</Text>
-            </Box>
-          </FlexBox>
-        </Appear>
-
-        <FlexBox width="100%" justifyContent="space-between">
+        <FlexBox width="100%" justifyContent="space-between" alignItems="stretch">
           <Box width="48%">
-            <Appear>
-              <Text fontSize="0.9rem" color="#34d399" fontWeight="700" margin="0 0 6px 0">
-                Server (server.ts)
-              </Text>
-            </Appear>
-            <Appear>
-              <CodeSnippet>{`function add(call, callback) {
-  const { a, b } = call.request;
-  console.log("ADD " + a + " + " + b);
-  callback(null, { result: a + b });
-}
-
-function divide(call, callback) {
-  const { a, b } = call.request;
-  if (b === 0) {
-    callback({
-      code: grpc.status.INVALID_ARGUMENT,
-      message: "Cannot divide by zero",
-    });
-    return;
-  }
-  callback(null, { result: a / b });
-}`}</CodeSnippet>
-            </Appear>
+            <Text fontSize="0.9rem" color="#34d399" fontWeight="700" margin="0 0 6px 0">
+              Calculadora en Vivo
+            </Text>
+            <LiveGRPCDemo />
           </Box>
           <Box width="48%">
             <Appear>
-              <Text fontSize="0.9rem" color="#06b6d4" fontWeight="700" margin="0 0 6px 0">
-                Client (client.ts)
-              </Text>
-            </Appear>
-            <Appear>
-              <CodeSnippet>{`const client = new Calculator(
-  "localhost:50051",
-  grpc.credentials.createInsecure()
-);
-
-const ops = [
-  { name: "10 + 5", method: "Add",
-    a: 10, b: 5 },
-  { name: "10 - 5", method: "Subtract",
-    a: 10, b: 5 },
-  { name: "10 * 5", method: "Multiply",
-    a: 10, b: 5 },
-  { name: "10 / 5", method: "Divide",
-    a: 10, b: 5 },
-];`}</CodeSnippet>
-            </Appear>
-            <Appear>
-              <Box backgroundColor="#1a1a0a" padding="8px 12px" borderRadius="6px" marginTop="8px" style={{ borderLeft: '3px solid #fbbf24' }}>
-                <Text fontSize="0.8rem" color="#fde68a" margin="0">
-                  ⚡ Datos viajan en binario sobre HTTP/2
+              <Box
+                backgroundColor="#1a1a0a"
+                padding="14px 18px"
+                borderRadius="8px"
+                marginBottom="12px"
+                style={{ borderLeft: '3px solid #fbbf24' }}
+              >
+                <Text fontSize="0.8rem" color="#c8d6e5" margin="0">
+                  El browser llama al <Text as="span" color="tertiary" fontWeight="700">API HTTP</Text> que internamente crea un cliente gRPC
                 </Text>
               </Box>
+            </Appear>
+            <Appear>
+              <Box
+                backgroundColor="#1a1a0a"
+                padding="14px 18px"
+                borderRadius="8px"
+                marginBottom="12px"
+                style={{ borderLeft: '3px solid #34d399' }}
+              >
+                <Text fontSize="0.8rem" color="#c8d6e5" margin="0">
+                  El cliente gRPC envía la petición en <Text as="span" color="quaternary" fontWeight="700">formato binario</Text> sobre HTTP/2
+                </Text>
+              </Box>
+            </Appear>
+            <Appear>
+              <Box
+                backgroundColor="#0a1628"
+                padding="14px 18px"
+                borderRadius="8px"
+                marginBottom="12px"
+                style={{ borderLeft: '3px solid #a78bfa' }}
+              >
+                <Text fontSize="0.8rem" color="#c8d6e5" margin="0">
+                  El <Text as="span" color="secondary" fontWeight="700">contrato .proto</Text> define los métodos y tipos
+                </Text>
+              </Box>
+            </Appear>
+            <Appear>
+              <CodeSnippet>{`rpc Add(CalcRequest) returns (CalcResponse);
+message CalcRequest {
+  double a = 1;
+  double b = 2;
+}
+message CalcResponse {
+  double result = 1;
+}`}</CodeSnippet>
             </Appear>
           </Box>
         </FlexBox>
