@@ -1,4 +1,5 @@
-import { Slide, Heading, Text, CodePane, FlexBox, Box, Appear, codePaneThemes } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import CodeSnippet from '../components/CodeSnippet';
 
 export default function DemoGRPC() {
   return (
@@ -44,10 +45,9 @@ export default function DemoGRPC() {
               </Text>
             </Appear>
             <Appear>
-              <CodePane language="typescript" theme={codePaneThemes.vsDark}>
-                {`function add(call, callback) {
+              <CodeSnippet>{`function add(call, callback) {
   const { a, b } = call.request;
-  console.log(\`ADD \${a} + \${b}\`);
+  console.log("ADD " + a + " + " + b);
   callback(null, { result: a + b });
 }
 
@@ -55,15 +55,13 @@ function divide(call, callback) {
   const { a, b } = call.request;
   if (b === 0) {
     callback({
-      code: grpc.status
-        .INVALID_ARGUMENT,
+      code: grpc.status.INVALID_ARGUMENT,
       message: "Cannot divide by zero",
     });
     return;
   }
   callback(null, { result: a / b });
-}`}
-              </CodePane>
+}`}</CodeSnippet>
             </Appear>
           </Box>
           <Box width="48%">
@@ -73,8 +71,7 @@ function divide(call, callback) {
               </Text>
             </Appear>
             <Appear>
-              <CodePane language="typescript" theme={codePaneThemes.vsDark}>
-                {`const client = new Calculator(
+              <CodeSnippet>{`const client = new Calculator(
   "localhost:50051",
   grpc.credentials.createInsecure()
 );
@@ -88,8 +85,7 @@ const ops = [
     a: 10, b: 5 },
   { name: "10 / 5", method: "Divide",
     a: 10, b: 5 },
-];`}
-              </CodePane>
+];`}</CodeSnippet>
             </Appear>
             <Appear>
               <Box backgroundColor="#1a1a0a" padding="8px 12px" borderRadius="6px" marginTop="8px" style={{ borderLeft: '3px solid #fbbf24' }}>

@@ -1,4 +1,5 @@
-import { Slide, Heading, Text, CodePane, FlexBox, Box, Appear, codePaneThemes } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import CodeSnippet from '../components/CodeSnippet';
 
 export default function GRPCConcepts() {
   return (
@@ -12,8 +13,7 @@ export default function GRPCConcepts() {
             <Appear>
               <Text fontSize="1rem" color="secondary" fontWeight="700" margin="0 0 8px 0">Protocol Buffers (.proto)</Text>
             </Appear>
-            <CodePane language="protobuf" theme={codePaneThemes.vsDark}>
-              {`syntax = "proto3";
+            <CodeSnippet>{`syntax = "proto3";
 
 service Calculator {
   rpc Add(CalcRequest)
@@ -33,16 +33,14 @@ message CalcRequest {
 
 message CalcResponse {
   double result = 1;
-}`}
-            </CodePane>
+}`}</CodeSnippet>
           </Box>
           <Box width="48%">
             <Appear>
               <Text fontSize="1rem" color="tertiary" fontWeight="700" margin="0 0 8px 0">Llamada RPC (TS)</Text>
             </Appear>
             <Appear>
-            <CodePane language="typescript" theme={codePaneThemes.vsDark}>
-              {`import * as grpc from "@grpc/grpc-js";
+              <CodeSnippet>{`import * as grpc from "@grpc/grpc-js";
 
 const client = new Calculator(
   "localhost:50051",
@@ -55,8 +53,7 @@ client.Add(
   (err, res) => {
     console.log(res.result); // 15
   }
-);`}
-              </CodePane>
+);`}</CodeSnippet>
             </Appear>
             <Appear>
               <Box backgroundColor="#1a1a0a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #fbbf24' }}>

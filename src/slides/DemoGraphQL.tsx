@@ -1,4 +1,5 @@
-import { Slide, Heading, Text, CodePane, FlexBox, Box, Appear, codePaneThemes } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import CodeSnippet from '../components/CodeSnippet';
 
 export default function DemoGraphQL() {
   return (
@@ -8,7 +9,6 @@ export default function DemoGraphQL() {
           Demo 1: GraphQL — Library API
         </Heading>
 
-        {/* Architecture diagram */}
         <Appear>
           <FlexBox
             width="100%"
@@ -45,14 +45,12 @@ export default function DemoGraphQL() {
               </Text>
             </Appear>
             <Appear>
-              <CodePane language="graphql" theme={codePaneThemes.vsDark}>
-                {`query {
+              <CodeSnippet>{`query {
   books {
     title
     author
   }
-}`}
-              </CodePane>
+}`}</CodeSnippet>
             </Appear>
             <Appear>
               <Box backgroundColor="#0a1a0a" padding="8px 12px" borderRadius="6px" marginTop="8px" style={{ borderLeft: '3px solid #34d399' }}>
@@ -67,16 +65,14 @@ export default function DemoGraphQL() {
               </Text>
             </Appear>
             <Appear>
-              <CodePane language="graphql" theme={codePaneThemes.vsDark}>
-                {`query {
+              <CodeSnippet>{`query {
   book(id: "2") {
     id
     title
     year
     genres
   }
-}`}
-              </CodePane>
+}`}</CodeSnippet>
             </Appear>
           </Box>
           <Box width="48%">
@@ -86,8 +82,7 @@ export default function DemoGraphQL() {
               </Text>
             </Appear>
             <Appear>
-              <CodePane language="graphql" theme={codePaneThemes.vsDark}>
-                {`mutation {
+              <CodeSnippet>{`mutation {
   addBook(
     title: "Dune"
     author: "Frank Herbert"
@@ -101,8 +96,7 @@ export default function DemoGraphQL() {
     title
     author
   }
-}`}
-              </CodePane>
+}`}</CodeSnippet>
             </Appear>
             <Appear>
               <Box backgroundColor="#0a0a1a" padding="8px 12px" borderRadius="6px" marginTop="8px" style={{ borderLeft: '3px solid #a78bfa' }}>
