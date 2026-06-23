@@ -13,8 +13,8 @@ import GRPCCommunication from './slides/GRPCCommunication';
 import GRPCProsCons from './slides/GRPCProsCons';
 import Comparison from './slides/Comparison';
 import UseCases from './slides/UseCases';
-import DemoGraphQL from './slides/DemoGraphQL';
-import DemoGRPC from './slides/DemoGRPC';
+import ArchitectureBridge from './slides/ArchitectureBridge';
+import IntegratedDemo from './slides/IntegratedDemo';
 import Summary from './slides/Summary';
 import Questions from './slides/Questions';
 
@@ -34,8 +34,8 @@ export default function App() {
       <GRPCProsCons />
       <Comparison />
       <UseCases />
-      <DemoGraphQL />
-      <DemoGRPC />
+      <ArchitectureBridge />
+      <IntegratedDemo />
       <Summary />
       <Questions />
     </Deck>

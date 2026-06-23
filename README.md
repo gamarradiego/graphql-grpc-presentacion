@@ -1,6 +1,6 @@
 # GraphQL & gRPC
 
-Presentación para el TFU de la Unidad 6 que compara **GraphQL** y **gRPC** como paradigmas de API modernos en la arquitectura de software. Además de la presentación, se incluyen ambos demos funcionales.
+Presentación para el TFU de la Unidad 6 que compara **GraphQL** y **gRPC** como paradigmas de API modernos en la arquitectura de software. Incluye una demo integrada donde GraphQL consume un servicio gRPC internamente.
 
 ## Estructura del Repositorio
 
@@ -29,23 +29,27 @@ Presentación para el TFU de la Unidad 6 que compara **GraphQL** y **gRPC** como
 │       ├── GRPCProsCons.tsx
 │       ├── Comparison.tsx
 │       ├── UseCases.tsx
-│       ├── DemoGraphQL.tsx
-│       ├── DemoGRPC.tsx
+│       ├── ArchitectureBridge.tsx  # Transición a demo integrada
+│       ├── IntegratedDemo.tsx      # Demo interactiva GraphQL+gRPC
 │       ├── Summary.tsx
 │       └── Questions.tsx
-├── graphql-demo/           # Demo de API de biblioteca con GraphQL
+├── graphql-demo/           # Gateway GraphQL (consume gRPC)
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── src/
-│       └── index.ts        # Apollo Server con schema, resolvers y datos
-└── grpc-demo/              # Demo del servicio calculadora con gRPC
+│       ├── index.ts        # Apollo Server standalone (referencia)
+│       └── gateway.ts      # Apollo Server que consulta gRPC
+└── grpc-demo/              # Servicio gRPC de Biblioteca
     ├── package.json
     ├── tsconfig.json
     ├── proto/
-    │   └── calculator.proto
+    │   ├── calculator.proto
+    │   └── library.proto   # Proto del servicio de biblioteca
     └── src/
-        ├── server.ts       # Servidor gRPC
-        └── client.ts       # Cliente gRPC
+        ├── server.ts       # Servidor calculadora (referencia)
+        ├── client.ts       # Cliente calculadora (referencia)
+        ├── library-server.ts   # Servidor gRPC de biblioteca
+        └── library-client.ts   # Cliente gRPC usado por el gateway
 ```
 
 ---
@@ -57,33 +61,36 @@ Presentación para el TFU de la Unidad 6 que compara **GraphQL** y **gRPC** como
 - **Node.js** >= 18
 - **npm** >= 9
 
-### 1. Instalar dependencias raíz (Vite + React + Spectacle)
+### 1. Instalar dependencias raíz
 
 ```bash
 npm install
 ```
 
-### 2. Instalar dependencias del demo de GraphQL
+### 2. Instalar dependencias de los demos
 
 ```bash
 cd graphql-demo && npm install && cd ..
-```
-
-### 3. Instalar dependencias del demo de gRPC
-
-```bash
 cd grpc-demo && npm install && cd ..
 ```
 
 ---
 
-## Ejecutar la Presentación
+## Ejecutar la Presentación (con demos integrados)
 
 ```bash
 npm run dev
 ```
 
-Abre el servidor de desarrollo de Vite en `http://localhost:5173`. Navega con las flechas del teclado (izquierda/derecha).
+Inicia tres procesos concurrentemente:
+
+| Proceso | Puerto | Descripción |
+|---|---|---|
+| Presentación React (Vite) | `:5173` | Slides navegables con flechas |
+| Servicio gRPC (Biblioteca) | `:50051` | Fuente de datos (Protocol Buffers) |
+| Gateway GraphQL | `:4000` | Traduce consultas GraphQL a RPC gRPC |
+
+Abre `http://localhost:5173`. Espera a que los tres servicios muestren su mensaje de inicio antes de usar la demo interactiva (puede tomar ~10 segundos la primera vez).
 
 Para compilar para producción:
 
@@ -91,3 +98,19 @@ Para compilar para producción:
 npm run build
 npm run preview
 ```
+
+---
+
+## Arquitectura
+
+```
+React App (cliente)
+    │  Consultas GraphQL (HTTP)
+    ▼
+GraphQL Gateway (Apollo Server)
+    │  Llamadas RPC (Protocol Buffers, HTTP/2)
+    ▼
+gRPC Service (Biblioteca — fuente de datos)
+```
+
+Los resolvers de GraphQL NO acceden a datos directamente. Cada consulta se traduce a una o más llamadas gRPC internas. Esto replica una arquitectura real donde GraphQL actúa como BFF (Backend For Frontend) y gRPC comunica los servicios internos.

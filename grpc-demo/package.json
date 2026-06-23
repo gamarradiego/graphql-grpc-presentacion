@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "server": "ts-node src/server.ts",
-    "client": "ts-node src/client.ts"
+    "client": "ts-node src/client.ts",
+    "library:server": "ts-node src/library-server.ts"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.12.0",

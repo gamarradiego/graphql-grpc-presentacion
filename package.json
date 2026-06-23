@@ -1,22 +1,27 @@
 {
   "name": "graphql-grpc-presentation",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "concurrently -k -n \"pres,grpc,graphql\" -c \"cyan,yellow,green\" \"vite\" \"npm run grpc:server\" \"npm run graphql:server\"",
+    "grpc:server": "ts-node grpc-demo/src/library-server.ts",
+    "graphql:server": "ts-node graphql-demo/src/gateway.ts",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "spectacle": "^10.2.3"
+    "spectacle": "^10.2.3",
+    "@grpc/grpc-js": "^1.12.0",
+    "@grpc/proto-loader": "^0.7.13"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5.6.3",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "ts-node": "^10.9.0",
+    "concurrently": "^9.1.0"
   }
 }

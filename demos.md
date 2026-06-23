@@ -1,57 +1,57 @@
 # Demos
 
-## Demo de GraphQL — API de Biblioteca
+## Arquitectura Integrada (Demo Principal)
 
-Una API de biblioteca simple construida con **Apollo Server 4**.
+La presentación incluye una sección interactiva que demuestra GraphQL y gRPC
+funcionando juntos en una arquitectura real.
 
-### Ejecución
+```
+React App (Vite, :5173)
+    │
+    ▼
+GraphQL Gateway (Apollo Server, :4000)
+    │
+    ▼
+gRPC Service (Biblioteca, :50051)
+```
+
+El gateway GraphQL NO lee datos directamente. Cada resolver del schema
+GraphQL realiza una llamada gRPC interna al servicio de biblioteca.
+
+### Ejecutar todo junto
 
 ```bash
-cd graphql-demo && npm run dev
+npm run dev
 ```
 
-El servidor inicia en `http://localhost:4000`. Abrir Apollo Sandbox en el navegador o enviar peticiones con `curl`.
+Esto inicia concurrentemente:
 
-### Schema
+| Proceso | Puerto | Comando |
+|---|---|---|
+| Presentación React (Vite) | `:5173` | `vite` |
+| Servicio gRPC (Biblioteca) | `:50051` | `ts-node grpc-demo/src/library-server.ts` |
+| Gateway GraphQL | `:4000` | `ts-node graphql-demo/src/gateway.ts` |
 
-```graphql
-type Book {
-  id: ID!
-  title: String!
-  author: String!
-  year: Int!
-  genres: [String!]!
-}
+Navega a `http://localhost:5173` para ver la presentación. Las últimas
+diapositivas contienen la demo interactiva donde puedes ejecutar consultas
+GraphQL en vivo y ver cómo internamente se traducen a llamadas gRPC.
 
-type Query {
-  books: [Book!]!
-  book(id: ID!): Book
-}
+### Demo Interactiva
 
-type Mutation {
-  addBook(title: String!, author: String!, year: Int!, genres: [String!]!): Book!
-}
-```
+Dentro de la presentación, la sección "Demo Integrada" permite:
 
-### Script de Demostración
+1. Seleccionar consultas predefinidas (libros, autores, libros con autor)
+2. Ver el flujo de la petición paso a paso (React → GraphQL → gRPC → respuesta)
+3. Inspeccionar la respuesta JSON devuelta por GraphQL
+4. Ver el trace de gRPC: qué métodos se llamaron, con qué parámetros y
+   cuánto tardaron
 
-#### 1. Solicitar solo campos seleccionados (evitar overfetching)
+### Consultas disponibles
 
+**Obtener todos los libros:**
 ```graphql
 query {
   books {
-    title
-    author
-  }
-}
-```
-**Nota:** Solo se devuelven `title` y `author` — sin overfetching.
-
-#### 2. Obtener un libro por ID
-
-```graphql
-query {
-  book(id: "2") {
     id
     title
     year
@@ -60,99 +60,65 @@ query {
 }
 ```
 
-#### 3. Agregar un nuevo libro (mutación)
-
+**Libros con autor (demuestra llamada anidada gRPC):**
 ```graphql
-mutation {
-  addBook(title: "Dune", author: "Frank Herbert", year: 1965, genres: ["Science Fiction", "Adventure"]) {
-    id
+query {
+  books {
     title
-    author
+    author {
+      name
+      nationality
+    }
   }
 }
 ```
 
-#### 4. Comparar selección de campos vs obtención completa
-
-```bash
-# Obtener solo title + author (payload pequeño)
-curl -s -X POST http://localhost:4000/ \
-  -H "Content-Type: application/json" \
-  -d '{"query":"{ books { title author } }"}' | jq .
-
-# Obtener todos los campos (payload más grande)
-curl -s -X POST http://localhost:4000/ \
-  -H "Content-Type: application/json" \
-  -d '{"query":"{ books { id title author year genres } }"}' | jq .
+**Obtener autores:**
+```graphql
+query {
+  authors {
+    id
+    name
+    nationality
+    birthYear
+  }
+}
 ```
-
-Demuestra cómo el **cliente controla la forma de la respuesta**, eliminando el overfetching.
 
 ---
 
-## Demo de gRPC — Servicio de Calculadora
+## Demos Individuales (Referencia)
 
-Un servicio de calculadora construido con **gRPC** y `@grpc/grpc-js`, usando **Protocol Buffers** para la definición del contrato y serialización.
+Los demos individuales siguen disponibles para ejecución por separado.
 
-### Ejecución
-
-Abre **dos terminales**.
-
-**Terminal 1 — Iniciar el servidor:**
+### GraphQL — API de Biblioteca (Standalone)
 
 ```bash
-cd grpc-demo && npm run server
+cd graphql-demo && npm run standalone
 ```
 
-**Terminal 2 — Ejecutar el cliente:**
+Inicia Apollo Server en `http://localhost:4000` usando datos en memoria
+(sin integración gRPC). Schema idéntico al del gateway.
+
+### gRPC — Calculadora (Standalone)
 
 ```bash
-cd grpc-demo && npm run client
+cd grpc-demo && npm run server   # Terminal 1
+cd grpc-demo && npm run client   # Terminal 2
 ```
 
-### Definición de Protocol Buffer
+Servicio de calculadora en `localhost:50051`. El cliente ejecuta
+operaciones Add, Subtract, Multiply, Divide.
 
-Archivo: [`proto/calculator.proto`](grpc-demo/proto/calculator.proto)
+---
 
-```protobuf
-syntax = "proto3";
+## Resumen
 
-service Calculator {
-  rpc Add      (CalcRequest) returns (CalcResponse);
-  rpc Subtract (CalcRequest) returns (CalcResponse);
-  rpc Multiply (CalcRequest) returns (CalcResponse);
-  rpc Divide   (CalcRequest) returns (CalcResponse);
-}
-
-message CalcRequest {
-  double a = 1;
-  double b = 2;
-}
-
-message CalcResponse {
-  double result = 1;
-}
-```
-
-### Script de Demostración
-
-1. En la **Terminal 1**, inicia el servidor gRPC:
-   ```bash
-   cd grpc-demo && npm run server
-   ```
-   Deberías ver: `Servidor de calculadora ejecutándose en localhost:50051`
-
-2. En la **Terminal 2**, ejecuta el cliente:
-   ```bash
-   cd grpc-demo && npm run client
-   ```
-
-3. Salida esperada del cliente:
-   ```
-   Cliente gRPC de Calculadora
-   ---------------------------
-   10 + 5 = 15
-   10 - 5 = 5
-   10 * 5 = 50
-   10 / 5 = 2
-   ```
+| Aspecto | GraphQL | gRPC |
+|---|---|---|
+| **Contract** | Schema (tipado, consultado libremente) | Proto (contrato RPC estricto) |
+| **Serialization** | JSON (legible por humanos) | Protocol Buffers (binario) |
+| **Transport** | HTTP/1.1 o HTTP/2 | HTTP/2 |
+| **Client control** | El cliente selecciona campos | Respuesta definida por el servidor |
+| **Use case** | APIs flexibles, web/mobile | Microservicios internos, streaming |
+| **Tooling** | Apollo, GraphiQL, Relay | protoc, grpcurl, Envoy |

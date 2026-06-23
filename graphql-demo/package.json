@@ -2,12 +2,15 @@
   "name": "graphql-demo",
   "private": true,
   "scripts": {
-    "dev": "ts-node src/index.ts"
+    "gateway": "ts-node src/gateway.ts",
+    "standalone": "ts-node src/index.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.11.0",
     "graphql": "^16.9.0",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "@grpc/grpc-js": "^1.12.0",
+    "@grpc/proto-loader": "^0.7.13"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
