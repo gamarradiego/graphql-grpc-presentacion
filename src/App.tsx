@@ -18,9 +18,30 @@ import DemoGRPC from './slides/DemoGRPC';
 import Summary from './slides/Summary';
 import Questions from './slides/Questions';
 
+const slideCount = 17;
+
 export default function App() {
   return (
-    <Deck theme={theme} transition={{ from: { opacity: 0 }, enter: { opacity: 1 }, leave: { opacity: 0 } }}>
+    <Deck
+      theme={theme}
+      template={({ slideNumber }) => (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            right: '30px',
+            color: '#4a5568',
+            fontFamily: '"Inter", sans-serif',
+            fontSize: '0.75rem',
+            letterSpacing: '2px',
+            userSelect: 'none',
+            zIndex: 10,
+          }}
+        >
+          {slideNumber} / {slideCount}
+        </div>
+      )}
+    >
       <TitleSlide />
       <Architecture />
       <APIOverview />

@@ -24,8 +24,20 @@ const theme: SpectacleThemeOverrides = {
   size: {
     width: 1280,
     height: 720,
-    maxCodePaneHeight: 300,
+    maxCodePaneHeight: 400,
   },
+};
+
+export const syntaxColors = {
+  keyword: '#c678dd',
+  string: '#98c379',
+  number: '#d19a66',
+  comment: '#5c6370',
+  type: '#e5c07b',
+  function: '#61afef',
+  operator: '#56b6c2',
+  punctuation: '#abb2bf',
+  plain: '#e5e7eb',
 };
 
 export default theme;
