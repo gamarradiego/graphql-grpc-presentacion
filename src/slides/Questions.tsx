@@ -1,4 +1,4 @@
-import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box } from 'spectacle';
 
 const links = [
   { label: 'GraphQL', url: 'https://graphql.org' },
@@ -27,11 +27,9 @@ export default function Questions() {
             Recursos
           </Text>
           {links.map((link, i) => (
-            <Appear key={i}>
-              <Text fontSize="1rem" color="#c8d6e5" margin="0 0 8px 0" fontFamily="monospace">
-                {link.label.padEnd(16)} {link.url}
-              </Text>
-            </Appear>
+            <Text key={i} fontSize="1rem" color="#c8d6e5" margin="0 0 8px 0" fontFamily="monospace">
+              {link.label.padEnd(16)} {link.url}
+            </Text>
           ))}
         </Box>
       </FlexBox>

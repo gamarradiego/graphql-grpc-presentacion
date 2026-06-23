@@ -1,4 +1,4 @@
-import { Slide, Heading, Text, Table, TableRow, TableCell, FlexBox, Appear } from 'spectacle';
+import { Slide, Heading, Text, Table, TableRow, TableCell, FlexBox } from 'spectacle';
 
 const cellStyle = {
   padding: '12px 16px',
@@ -19,12 +19,11 @@ const headerStyle = {
 export default function APIOverview() {
   return (
     <Slide backgroundColor="#0b0d1a">
-      <FlexBox height="100%" flexDirection="column" justifyContent="center">
+      <FlexBox width="100%" height="100%" flexDirection="column" justifyContent="center" alignItems="center">
         <Heading fontSize="2.2rem" color="primary" margin="0 0 36px 0">
           Paradigmas de API
         </Heading>
-        <Appear>
-          <Table width="90%" style={{ borderCollapse: 'collapse' }}>
+        <Table width="100%" style={{ borderCollapse: 'collapse', tableLayout: 'fixed' }}>
             <TableRow>
               <TableCell style={headerStyle}>Paradigma</TableCell>
               <TableCell style={headerStyle}>Transporte</TableCell>
@@ -61,8 +60,7 @@ export default function APIOverview() {
               <TableCell style={cellStyle}>Binario / Texto</TableCell>
               <TableCell style={cellStyle}>Medio</TableCell>
             </TableRow>
-          </Table>
-        </Appear>
+        </Table>
       </FlexBox>
     </Slide>
   );

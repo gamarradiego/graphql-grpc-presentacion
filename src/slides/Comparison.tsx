@@ -1,4 +1,4 @@
-import { Slide, Heading, Text, Table, TableRow, TableCell, FlexBox, Appear } from 'spectacle';
+import { Slide, Heading, Text, Table, TableRow, TableCell, FlexBox } from 'spectacle';
 
 const cellStyle = {
   padding: '10px 14px',
@@ -32,26 +32,24 @@ const grpcColor = '#fbbf24';
 export default function Comparison() {
   return (
     <Slide backgroundColor="#0b0d1a">
-      <FlexBox height="100%" flexDirection="column" justifyContent="center">
+      <FlexBox width="100%" height="100%" flexDirection="column" justifyContent="center" alignItems="center">
         <Heading fontSize="2.2rem" color="primary" margin="0 0 28px 0">
           GraphQL vs gRPC — Comparación
         </Heading>
-        <Appear>
-          <Table width="85%" style={{ borderCollapse: 'collapse' }}>
-            <TableRow>
-              <TableCell style={headerStyle}>Aspecto</TableCell>
-              <TableCell style={{ ...headerStyle, color: graphqlColor }}>GraphQL</TableCell>
-              <TableCell style={{ ...headerStyle, color: grpcColor }}>gRPC</TableCell>
+        <Table width="100%" style={{ borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+          <TableRow>
+            <TableCell style={headerStyle}>Aspecto</TableCell>
+            <TableCell style={{ ...headerStyle, color: graphqlColor }}>GraphQL</TableCell>
+            <TableCell style={{ ...headerStyle, color: grpcColor }}>gRPC</TableCell>
+          </TableRow>
+          {rows.map(([aspect, gql, grpc], i) => (
+            <TableRow key={i}>
+              <TableCell style={{ ...cellStyle, fontWeight: '600', color: '#94a3b8' }}>{aspect}</TableCell>
+              <TableCell style={cellStyle}>{gql}</TableCell>
+              <TableCell style={cellStyle}>{grpc}</TableCell>
             </TableRow>
-            {rows.map(([aspect, gql, grpc], i) => (
-              <TableRow key={i}>
-                <TableCell style={{ ...cellStyle, fontWeight: '600', color: '#94a3b8' }}>{aspect}</TableCell>
-                <TableCell style={cellStyle}>{gql}</TableCell>
-                <TableCell style={cellStyle}>{grpc}</TableCell>
-              </TableRow>
-            ))}
-          </Table>
-        </Appear>
+          ))}
+        </Table>
       </FlexBox>
     </Slide>
   );

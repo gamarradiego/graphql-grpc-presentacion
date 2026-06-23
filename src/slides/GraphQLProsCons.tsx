@@ -1,4 +1,4 @@
-import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box } from 'spectacle';
 
 const pros = [
   'Cliente controla la respuesta (no over/under-fetching)',
@@ -21,33 +21,25 @@ export default function GraphQLProsCons() {
         <Heading fontSize="2.2rem" color="primary" margin="0 0 36px 0">
           GraphQL — Ventajas y Desventajas
         </Heading>
-        <FlexBox width="100%" justifyContent="space-between">
-          <Box width="47%" backgroundColor="#0a1a0a" padding="24px" borderRadius="8px" style={{ border: '1px solid #064e3b' }}>
-            <Appear>
-              <Text fontSize="1.1rem" color="quaternary" fontWeight="700" margin="0 0 16px 0">
-                ✅ Ventajas
-              </Text>
-            </Appear>
+        <FlexBox width="100%" justifyContent="space-between" alignItems="stretch" style={{ gap: '24px' }}>
+          <Box backgroundColor="#0a1a0a" padding="24px" borderRadius="8px" style={{ border: '1px solid #064e3b', flex: 1, minWidth: 0 }}>
+            <Text fontSize="1.1rem" color="quaternary" fontWeight="700" margin="0 0 16px 0">
+              ✅ Ventajas
+            </Text>
             {pros.map((item, i) => (
-              <Appear key={i}>
-                <Text fontSize="0.95rem" color="#c8d6e5" margin="0 0 10px 0">
-                  {item}
-                </Text>
-              </Appear>
+              <Text key={i} fontSize="0.95rem" color="#c8d6e5" margin="0 0 10px 0">
+                {item}
+              </Text>
             ))}
           </Box>
-          <Box width="47%" backgroundColor="#1a0a0a" padding="24px" borderRadius="8px" style={{ border: '1px solid #7f1d1d' }}>
-            <Appear>
-              <Text fontSize="1.1rem" color="quinary" fontWeight="700" margin="0 0 16px 0">
-                ❌ Desventajas
-              </Text>
-            </Appear>
+          <Box backgroundColor="#1a0a0a" padding="24px" borderRadius="8px" style={{ border: '1px solid #7f1d1d', flex: 1, minWidth: 0 }}>
+            <Text fontSize="1.1rem" color="quinary" fontWeight="700" margin="0 0 16px 0">
+              ❌ Desventajas
+            </Text>
             {cons.map((item, i) => (
-              <Appear key={i}>
-                <Text fontSize="0.95rem" color="#c8d6e5" margin="0 0 10px 0">
-                  {item}
-                </Text>
-              </Appear>
+              <Text key={i} fontSize="0.95rem" color="#c8d6e5" margin="0 0 10px 0">
+                {item}
+              </Text>
             ))}
           </Box>
         </FlexBox>

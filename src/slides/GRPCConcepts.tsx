@@ -1,4 +1,4 @@
-import { Slide, Heading, Text, FlexBox, Box, Appear } from 'spectacle';
+import { Slide, Heading, Text, FlexBox, Box } from 'spectacle';
 import CodeSnippet from '../components/CodeSnippet';
 
 export default function GRPCConcepts() {
@@ -8,11 +8,9 @@ export default function GRPCConcepts() {
         <Heading fontSize="2.2rem" color="tertiary" margin="0 0 24px 0">
           gRPC — Conceptos Clave
         </Heading>
-        <FlexBox width="100%" justifyContent="space-between" alignItems="flex-start">
-          <Box width="48%">
-            <Appear>
-              <Text fontSize="1rem" color="secondary" fontWeight="700" margin="0 0 8px 0">Protocol Buffers (.proto)</Text>
-            </Appear>
+        <FlexBox width="100%" justifyContent="space-between" alignItems="flex-start" style={{ gap: '24px' }}>
+          <Box style={{ flex: 1, minWidth: 0 }}>
+            <Text fontSize="1rem" color="secondary" fontWeight="700" margin="0 0 8px 0">Protocol Buffers (.proto)</Text>
             <CodeSnippet>{`syntax = "proto3";
 
 service Calculator {
@@ -35,11 +33,8 @@ message CalcResponse {
   double result = 1;
 }`}</CodeSnippet>
           </Box>
-          <Box width="48%">
-            <Appear>
-              <Text fontSize="1rem" color="tertiary" fontWeight="700" margin="0 0 8px 0">Llamada RPC (TS)</Text>
-            </Appear>
-            <Appear>
+          <Box style={{ flex: 1, minWidth: 0 }}>
+            <Text fontSize="1rem" color="tertiary" fontWeight="700" margin="0 0 8px 0">Llamada RPC (TS)</Text>
             <CodeSnippet>{`import * as grpc from "@grpc/grpc-js";
 
 const client = new Calculator(
@@ -55,14 +50,11 @@ client.Add(
   }
 );`}
             </CodeSnippet>
-            </Appear>
-            <Appear>
-              <Box backgroundColor="#1a1a0a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #fbbf24' }}>
-                <Text fontSize="0.9rem" color="#fde68a" margin="0">
-                  ⚡ Datos transmitidos en <Text as="span" fontWeight="700">formato binario</Text> (no JSON)
-                </Text>
-              </Box>
-            </Appear>
+            <Box backgroundColor="#1a1a0a" padding="12px 16px" borderRadius="6px" marginTop="12px" style={{ borderLeft: '3px solid #fbbf24' }}>
+              <Text fontSize="0.9rem" color="#fde68a" margin="0">
+                ⚡ Datos transmitidos en <Text as="span" fontWeight="700">formato binario</Text> (no JSON)
+              </Text>
+            </Box>
           </Box>
         </FlexBox>
       </FlexBox>
